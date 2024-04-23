@@ -1,10 +1,10 @@
-import React from 'react'
 import Navbar from './Navbar'
 
 function UserDashboard() {
   return (
     <div>
         <Navbar/>
+        <p>HELLO USER!</p>
     </div>
   )
 }
