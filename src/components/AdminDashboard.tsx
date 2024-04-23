@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import axios from "axios";
 import Pog from "./Pogs";
 import PogForm, { PogFormData } from "./PogForm";
 import Navbar from "./Navbar";
@@ -6,7 +7,25 @@ import { useNavigate } from "react-router-dom";
 
 function AdminDashboard(): JSX.Element {
   const [showForm, setShowForm] = useState<boolean>(false);
+  const [pogs, setPogs] = useState<any[]>([]);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    fetchPogs();
+  }, []);
+
+  const fetchPogs = async (): Promise<void> => {
+    try {
+      const response = await axios.get("http://localhost:3000/pogs/api");
+      if (Array.isArray(response.data)) {
+        setPogs(response.data);
+      } else {
+        setPogs([]);
+      }
+    } catch (error) {
+      console.error("Error fetching POGS:", error);
+    }
+  };
 
   const handleAddPogClick = (): void => {
     setShowForm(true);
@@ -27,8 +46,26 @@ function AdminDashboard(): JSX.Element {
       }
 
       setShowForm(false);
+      fetchPogs();
     } catch (error) {
       console.error("Form submission error:", error);
+    }
+  };
+
+  const handleRandomizePriceClick = async (): Promise<void> => {
+    try {
+      const response = await axios.patch(
+        "http://localhost:3000/pogs/api/update-price"
+      );
+
+      if (response.status === 200) {
+        console.log("Prices randomized successfully");
+        fetchPogs();
+      } else {
+        throw new Error("Failed to randomize prices");
+      }
+    } catch (error) {
+      console.error("Price randomization error:", error);
     }
   };
 
@@ -49,14 +86,22 @@ function AdminDashboard(): JSX.Element {
         </button>
       </div>
       <div className="container p-8 mx-auto">
-        <button
-          onClick={handleAddPogClick}
-          className="block px-4 py-2 mb-4 text-white bg-blue-500 rounded-md shadow-md hover:bg-blue-600 focus:outline-none focus:bg-blue-600"
-        >
-          Add Pog
-        </button>
+        <div className="flex justify-between mb-4">
+          <button
+            onClick={handleAddPogClick}
+            className="block px-4 py-2 text-white bg-blue-500 rounded-md shadow-md hover:bg-blue-600 focus:outline-none focus:bg-blue-600"
+          >
+            Add Pog
+          </button>
+          <button
+            onClick={handleRandomizePriceClick}
+            className="block px-4 py-2 text-white bg-green-500 rounded-md shadow-md hover:bg-green-600 focus:outline-none focus:bg-green-600"
+          >
+            Randomize Prices
+          </button>
+        </div>
         {showForm && <PogForm onSubmit={handleFormSubmit} />}
-        <Pog />
+        <Pog pogs={pogs} />
       </div>
     </div>
   );
