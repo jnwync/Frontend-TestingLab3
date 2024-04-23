@@ -1,6 +1,6 @@
 import { useState, ChangeEvent, FormEvent } from "react";
 
-interface PogFormData {
+export interface PogFormData {
   pogs_name: string;
   ticker_symbol: string;
   color: string;
@@ -9,7 +9,7 @@ interface PogFormData {
 }
 
 interface Props {
-  onSubmit: (formData: PogFormData) => Promise<void>; // Updated to accept Promise<void>
+  onSubmit: (formData: PogFormData) => Promise<void>;
 }
 
 function PogForm({ onSubmit }: Props) {
@@ -21,6 +21,8 @@ function PogForm({ onSubmit }: Props) {
     previous_price: 0,
   });
 
+  const [errors, setErrors] = useState<{ [key: string]: string }>({});
+
   const handleChange = (
     e: ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => {
@@ -29,11 +31,52 @@ function PogForm({ onSubmit }: Props) {
       ...prevData,
       [name]: value,
     }));
+    // Clear the error message when the input changes
+    setErrors((prevErrors) => ({
+      ...prevErrors,
+      [name]: "",
+    }));
   };
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    await onSubmit(formData); // Ensure to await the promise
+    if (validateForm()) {
+      await onSubmit(formData);
+    }
+  };
+
+  const validateForm = (): boolean => {
+    const newErrors: { [key: string]: string } = {};
+    let isValid = true;
+
+    if (!formData.pogs_name.trim()) {
+      newErrors.pogs_name = "Pogs Name is required";
+      isValid = false;
+    }
+
+    if (!formData.ticker_symbol.trim()) {
+      newErrors.ticker_symbol = "Ticker Symbol is required";
+      isValid = false;
+    }
+
+    if (!formData.color.trim()) {
+      newErrors.color = "Color is required";
+      isValid = false;
+    }
+
+    if (isNaN(formData.current_price) || formData.current_price <= 0) {
+      newErrors.current_price = "Current Price must be a valid positive number";
+      isValid = false;
+    }
+
+    if (isNaN(formData.previous_price) || formData.previous_price <= 0) {
+      newErrors.previous_price =
+        "Previous Price must be a valid positive number";
+      isValid = false;
+    }
+
+    setErrors(newErrors);
+    return isValid;
   };
 
   return (
@@ -45,6 +88,9 @@ function PogForm({ onSubmit }: Props) {
         value={formData.pogs_name}
         onChange={handleChange}
       />
+      {errors.pogs_name && (
+        <span className="text-red-500">{errors.pogs_name}</span>
+      )}
       <input
         type="text"
         name="ticker_symbol"
@@ -52,6 +98,9 @@ function PogForm({ onSubmit }: Props) {
         value={formData.ticker_symbol}
         onChange={handleChange}
       />
+      {errors.ticker_symbol && (
+        <span className="text-red-500">{errors.ticker_symbol}</span>
+      )}
       <input
         type="text"
         name="color"
@@ -59,6 +108,7 @@ function PogForm({ onSubmit }: Props) {
         value={formData.color}
         onChange={handleChange}
       />
+      {errors.color && <span className="text-red-500">{errors.color}</span>}
       <input
         type="number"
         name="current_price"
@@ -66,6 +116,9 @@ function PogForm({ onSubmit }: Props) {
         value={formData.current_price}
         onChange={handleChange}
       />
+      {errors.current_price && (
+        <span className="text-red-500">{errors.current_price}</span>
+      )}
       <input
         type="number"
         name="previous_price"
@@ -73,6 +126,9 @@ function PogForm({ onSubmit }: Props) {
         value={formData.previous_price}
         onChange={handleChange}
       />
+      {errors.previous_price && (
+        <span className="text-red-500">{errors.previous_price}</span>
+      )}
       <button type="submit">Add Pog</button>
     </form>
   );

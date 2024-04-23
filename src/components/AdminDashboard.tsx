@@ -1,16 +1,7 @@
-// In AdminDashboard.tsx
 import { useState } from "react";
 import Navbar from "./Navbar";
 import Pog from "./Pogs";
-import PogForm from "./PogForm";
-
-interface PogFormData {
-  pogs_name: string;
-  ticker_symbol: string;
-  color: string;
-  current_price: number;
-  previous_price: number;
-}
+import PogForm, { PogFormData } from "./PogForm";
 
 function AdminDashboard(): JSX.Element {
   const [showForm, setShowForm] = useState<boolean>(false);
@@ -42,9 +33,16 @@ function AdminDashboard(): JSX.Element {
   return (
     <div>
       <Navbar />
-      <button onClick={handleAddPogClick}>Add Pog</button>
-      {showForm && <PogForm onSubmit={handleFormSubmit} />}
-      <Pog />
+      <div className="container p-8 mx-auto">
+        <button
+          onClick={handleAddPogClick}
+          className="block px-4 py-2 mb-4 text-white bg-blue-500 rounded-md shadow-md hover:bg-blue-600 focus:outline-none focus:bg-blue-600"
+        >
+          Add Pog
+        </button>
+        {showForm && <PogForm onSubmit={handleFormSubmit} />}
+        <Pog />
+      </div>
     </div>
   );
 }
