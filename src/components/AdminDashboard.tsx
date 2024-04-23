@@ -1,6 +1,7 @@
 import { useState } from "react";
 import Pog from "./Pogs";
 import PogForm, { PogFormData } from "./PogForm";
+import Navbar from "./Navbar";
 import { useNavigate } from "react-router-dom";
 
 function AdminDashboard(): JSX.Element {
@@ -38,6 +39,7 @@ function AdminDashboard(): JSX.Element {
 
   return (
     <div>
+      <Navbar />
       <div className="flex justify-end p-4">
         <button
           onClick={handleLogout}
