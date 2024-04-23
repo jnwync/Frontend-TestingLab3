@@ -5,15 +5,6 @@ const Pog: React.FC = () => {
   const [pogs, setPogs] = useState<any[]>([]);
 
   useEffect(() => {
-
-    //     const hardcodedPogs = [
-    //         { id: 1, name: "NAROTO", description: "SHIPPUDEN", price: 10 },
-    //         { id: 2, name: "EOT", description: "BOLAGA", price: 20 },
-    //         { id: 3, name: "SAKORA", description: "GI", price: 30 },
-    //       ];
-    //       setPogs(hardcodedPogs);
-    //   }, []);
-
     const fetchPogs = async () => {
       try {
         const response = await axios.get("http://localhost:3000/pogs/api");
@@ -27,8 +18,7 @@ const Pog: React.FC = () => {
       }
     };
     fetchPogs();
-  }, [])
-
+  }, []);
 
   return (
     <div className="container mx-auto">
@@ -40,8 +30,12 @@ const Pog: React.FC = () => {
             <p className="mb-2 text-gray-600">{pog.ticker_symbol}</p>
             <p className="mb-2 text-gray-600">{pog.color}</p>
             <div className="flex items-center justify-between">
-              <p className="font-bold text-gray-800">Price: ${pog.current_price}</p>
-              <button className="px-4 py-2 text-white bg-blue-500 rounded-md hover:bg-blue-600 focus:outline-none focus:bg-blue-600">Buy Now</button>
+              <p className="font-bold text-gray-800">
+                Price: ${pog.current_price}
+              </p>
+              <button className="px-4 py-2 text-white bg-blue-500 rounded-md hover:bg-blue-600 focus:outline-none focus:bg-blue-600">
+                Buy Now
+              </button>
             </div>
           </div>
         ))}
