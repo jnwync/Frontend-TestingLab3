@@ -1,28 +1,27 @@
 import { useState, useEffect } from "react";
-import Pog from "./Pogs";
-import { useNavigate } from "react-router-dom";
-import Navbar from "./Navbar";
 import axios from "axios";
+import Pog from "./Pogs";
+import Navbar from "./Navbar";
+import { useNavigate } from "react-router-dom";
 
 function UserDashboard(): JSX.Element {
   const [pogs, setPogs] = useState<any[]>([]);
   const navigate = useNavigate();
 
   useEffect(() => {
-    fetchUserPogs();
+    fetchPogs();
   }, []);
 
-  const fetchUserPogs = async (): Promise<void> => {
+  const fetchPogs = async (): Promise<void> => {
     try {
-      const response = await axios.get("http://localhost:3000/user/pogs");
-
+      const response = await axios.get("http://localhost:3000/pogs/api");
       if (Array.isArray(response.data)) {
         setPogs(response.data);
       } else {
         setPogs([]);
       }
     } catch (error) {
-      console.error("Error fetching user-specific Pogs:", error);
+      console.error("Error fetching POGS:", error);
     }
   };
 
