@@ -5,16 +5,15 @@ const Login: React.FC = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
+//   const backendUrl = process.env.REACT_APP_BACKEND_URL;
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
-
+  
     try {
-      const response = await axios.post('/api-login', { email, password });
-      // Handle successful login, e.g., redirect to dashboard
+      const response = await axios.post(`http://localhost:3000/user/api-login`, { email, password });
       console.log(response.data);
     } catch (error) {
-      // Handle login error
       setError('Invalid email or password');
       console.error(error);
     }
