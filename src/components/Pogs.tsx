@@ -36,7 +36,7 @@ const Pog: React.FC = () => {
       <h1 className="mt-8 mb-4 text-3xl font-bold">Pogs Available</h1>
       <div className="grid grid-cols-3 gap-4">
         {pogs.map((pog) => (
-          <div key={pog.id} className="relative p-4 bg-gray-200 rounded-lg">
+          <div key={pog.id} className="relative p-4 rounded-lg shadow-lg">
             {isAdmin && (
               <button
                 className="absolute p-1 text-xs text-white bg-red-500 rounded-full top-2 right-2 hover:bg-red-600 focus:outline-none focus:bg-red-600"
@@ -47,7 +47,7 @@ const Pog: React.FC = () => {
             )}
             <h2 className="text-lg font-semibold">{pog.pogs_name}</h2>
             <p className="mb-2 text-gray-600">{pog.ticker_symbol}</p>
-            <p className="mb-2 text-gray-600">{pog.color}</p>
+            {/* <p className="mb-2 text-gray-600">{pog.color}</p> */}
             <div className="flex items-center justify-between">
               <p className="font-bold text-gray-800">
                 Price: ${pog.current_price}

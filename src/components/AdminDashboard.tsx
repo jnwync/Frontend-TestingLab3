@@ -1,10 +1,11 @@
 import { useState } from "react";
-import Navbar from "./Navbar";
 import Pog from "./Pogs";
 import PogForm, { PogFormData } from "./PogForm";
+import { useNavigate } from "react-router-dom";
 
 function AdminDashboard(): JSX.Element {
   const [showForm, setShowForm] = useState<boolean>(false);
+  const navigate = useNavigate();
 
   const handleAddPogClick = (): void => {
     setShowForm(true);
@@ -30,9 +31,21 @@ function AdminDashboard(): JSX.Element {
     }
   };
 
+  const handleLogout = (): void => {
+    localStorage.clear();
+    navigate("/");
+  };
+
   return (
     <div>
-      <Navbar />
+      <div className="flex justify-end p-4">
+        <button
+          onClick={handleLogout}
+          className="text-red-500 hover:text-red-700 focus:outline-none"
+        >
+          Logout
+        </button>
+      </div>
       <div className="container p-8 mx-auto">
         <button
           onClick={handleAddPogClick}
