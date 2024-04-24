@@ -26,8 +26,8 @@ const Login: React.FC = () => {
       localStorage.setItem("userId", response.data.userId);
       localStorage.setItem("userType", response.data.userType);
 
-      console.log(response.data.userType);
 
+      console.log(response.data.userType);
       if (response.data.userType === "admin") {
         navigate("/admin-dashboard");
       } else {
@@ -35,7 +35,10 @@ const Login: React.FC = () => {
       }
     } catch (error) {
       setError("Invalid email or password");
+      alert("Invalid email or password");
       console.error(error);
+      navigate("/Not-found");
+
     }
   };
 

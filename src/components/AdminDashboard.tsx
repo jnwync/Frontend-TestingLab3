@@ -4,6 +4,7 @@ import Pog from "./Pogs";
 import PogForm, { PogFormData } from "./PogForm";
 import Navbar from "./Navbar";
 import { useNavigate } from "react-router-dom";
+import React from "react";
 
 function AdminDashboard(): JSX.Element {
   const [showForm, setShowForm] = useState<boolean>(false);

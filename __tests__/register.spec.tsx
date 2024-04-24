@@ -46,7 +46,7 @@ describe('Register', () => {
 
   it('should not register successfully', async () => {
     mockedAxios.post.mockRejectedValueOnce({
-      response: {status: 400, data: {message: 'Registration failed'}},
+      response: {status: 400, data: {message: 'internal server error'}},
     });
 
     const { getByLabelText, getByRole} = render(
