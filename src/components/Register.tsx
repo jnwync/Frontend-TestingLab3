@@ -8,10 +8,28 @@ const Register: React.FC = () => {
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const navigate = useNavigate(); 
+  const isValidEmail = (email: string): boolean => {
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+  };
+
+  const isValidPassword = (password: string): boolean => {
+    // Password must be at least 8 characters long and contain at least one uppercase letter, one lowercase letter, one number, and one special character
+    return /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*()_+])[a-zA-Z\d!@#$%^&*()_+]{8,}$/.test(password);
+  };
+
+
 
   const handleRegister = async (e: React.FormEvent) => {
     e.preventDefault();
 
+    if(!isValidEmail(email)) {
+      setError('Invalid email');
+    }
+
+    if(!isValidPassword(password)) {
+      setError('Invalid password');
+      return;
+    }
     try {
       const response = await axios.post(`http://localhost:3000/user/api-register`, { username, email, password });
       console.log(response.data);
