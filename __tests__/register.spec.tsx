@@ -39,8 +39,68 @@ describe('Register', () => {
 
     fireEvent.click(getByRole('button', { name: /Register/i }))
 
-    await waitFor(() => {
-      expect(window.location.pathname).toBe('/')
-    })
-  })
-})
+    await waitFor(() => expect(axios.post).toHaveBeenCalledTimes(1));
+
+    expect(window.location.pathname).toBe('/');
+  });
+
+  it('should not register successfully', async () => {
+    mockedAxios.post.mockRejectedValueOnce({
+      response: {status: 400, data: {message: 'Registration failed'}},
+    });
+
+    const { getByLabelText, getByRole} = render(
+      <Router>
+        <Register />
+      </Router>
+    )
+
+    fireEvent.change(getByLabelText(/username/i), { target: { value: 'linti' } })
+    fireEvent.change(getByLabelText(/email/i), { target: { value: 'hello@gmail.com' } })
+    fireEvent.change(getByLabelText(/password/i), { target: { value: 'Password12!' } })
+
+    fireEvent.click(getByRole('button', { name: /Register/i }))
+
+    await waitFor(() => expect(axios.post).toHaveBeenCalledTimes(1));
+
+    expect(window.location.pathname).toBe('/server-error');
+
+  });
+
+  it('should show error message when password is invalid', async () => {
+    const { getByLabelText, getByRole} = render(
+      <Router>
+        <Register />
+      </Router>
+    )
+
+    fireEvent.change(getByLabelText(/username/i), { target: { value: 'linti' } })
+    fireEvent.change(getByLabelText(/email/i), { target: { value: 'hello@gmail.com' } })
+    fireEvent.change(getByLabelText(/password/i), { target: { value: 'wrong password' } })
+
+    fireEvent.click(getByRole('button', { name: /Register/i }))
+
+    await waitFor(() => expect(axios.post).toHaveBeenCalledTimes(0));
+
+    expect(window.location.pathname).toBe('/error');
+  });
+
+  it('should show error message when email is invalid', async () => {
+    const { getByLabelText, getByRole} = render(
+      <Router>
+        <Register />
+      </Router>
+    )
+
+    fireEvent.change(getByLabelText(/username/i), { target: { value: 'linti' } })
+    fireEvent.change(getByLabelText(/email/i), { target: { value: 'noEmail' } })
+    fireEvent.change(getByLabelText(/password/i), { target: { value: 'Password12!' } })
+
+    fireEvent.click(getByRole('button', { name: /Register/i }))
+
+    await waitFor(() => expect(axios.post).toHaveBeenCalledTimes(0));
+
+    expect(window.location.pathname).toBe('/error');
+  });
+
+});

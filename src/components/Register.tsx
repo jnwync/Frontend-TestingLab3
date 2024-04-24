@@ -24,10 +24,13 @@ const Register: React.FC = () => {
 
     if(!isValidEmail(email)) {
       setError('Invalid email');
+      navigate('/error');
+      return;
     }
 
     if(!isValidPassword(password)) {
       setError('Invalid password');
+      navigate('/error');
       return;
     }
     try {
@@ -40,7 +43,7 @@ const Register: React.FC = () => {
       navigate('/');
     } catch (error) {
       setError('Registration failed');
-      console.error(error);
+      navigate('/server-error');
     }
   };
 
