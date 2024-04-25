@@ -63,7 +63,7 @@ function AdminDashboard() {
 
   const handleRandomizePriceClick = async () => {
     try {
-      await axios.patch("http://localhost:3000/pogs/api/randomize-prices");
+      await axios.patch("http://localhost:3000/pogs/api/update-price");
       fetchPogs();
       alert("Prices randomized successfully");
     }
