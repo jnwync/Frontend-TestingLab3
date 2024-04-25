@@ -6,6 +6,7 @@ import { BrowserRouter as Router } from 'react-router-dom'
 import AdminDashboard from '../src/components/AdminDashboard'
 
 jest.mock('axios')
+const mockAlert = jest.spyOn(window, 'alert').mockImplementation();
 const mockedAxios = axios as jest.Mocked<typeof axios>
 
 describe('AdminDashboard', () => {
@@ -19,7 +20,7 @@ describe('AdminDashboard', () => {
         jest.clearAllMocks()
     });
 
-    it('should render admin dashboard', async () => {
+    it('should randomize price token', async () => {
         mockedAxios.get.mockResolvedValueOnce({
             data: {
                 token: 'token',
@@ -28,13 +29,17 @@ describe('AdminDashboard', () => {
             },
         });
 
-        const { getByText } = render(
+        const {getByRole } = render(
             <Router>
                 <AdminDashboard />
             </Router>
         );
 
         
+        fireEvent.click(getByRole('button', { name: /Randomize Prices/i }))
 
+        await waitFor(() => expect(axios.patch).toHaveBeenCalledTimes(1));
+
+        expect(mockAlert).toHaveBeenCalledWith("Prices randomized successfully");
     });
 });

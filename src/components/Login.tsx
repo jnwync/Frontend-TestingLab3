@@ -20,12 +20,11 @@ const Login: React.FC = () => {
         `http://localhost:3000/user/api-login`,
         { email, password }
       );
-      console.log(response.data);
+      console.log("response: ", response.data);
 
       localStorage.setItem("token", response.data.token);
       localStorage.setItem("userId", response.data.userId);
       localStorage.setItem("userType", response.data.userType);
-
 
       console.log(response.data.userType);
       if (response.data.userType === "admin") {
@@ -35,7 +34,6 @@ const Login: React.FC = () => {
       }
     } catch (error) {
       setError("Invalid email or password");
-      alert("Invalid email or password");
       console.error(error);
       navigate("/Not-found");
 

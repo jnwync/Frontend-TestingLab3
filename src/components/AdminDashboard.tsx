@@ -1,12 +1,20 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import Pog from "./Pogs";
-import PogForm, { PogFormData } from "./PogForm";
+import PogForm from "./PogForm";
 import Navbar from "./Navbar";
 import { useNavigate } from "react-router-dom";
 import React from "react";
 
-function AdminDashboard(): JSX.Element {
+interface PogFormData {
+  pogs_name: string;
+  ticker_symbol: string;
+  color: string;
+  current_price: number;
+  previous_price: number;
+}
+
+function AdminDashboard() {
   const [showForm, setShowForm] = useState<boolean>(false);
   const [pogs, setPogs] = useState<any[]>([]);
   const navigate = useNavigate();
@@ -24,7 +32,7 @@ function AdminDashboard(): JSX.Element {
         setPogs([]);
       }
     } catch (error) {
-      console.error("Error fetching POGS:", error);
+      navigate("/Not-found");
     }
   };
 
@@ -53,20 +61,14 @@ function AdminDashboard(): JSX.Element {
     }
   };
 
-  const handleRandomizePriceClick = async (): Promise<void> => {
+  const handleRandomizePriceClick = async () => {
     try {
-      const response = await axios.patch(
-        "http://localhost:3000/pogs/api/update-price"
-      );
-
-      if (response.status === 200) {
-        console.log("Prices randomized successfully");
-        fetchPogs();
-      } else {
-        throw new Error("Failed to randomize prices");
-      }
-    } catch (error) {
-      console.error("Price randomization error:", error);
+      await axios.patch("http://localhost:3000/pogs/api/randomize-prices");
+      fetchPogs();
+      alert("Prices randomized successfully");
+    }
+    catch (error) {
+      alert("Failed to randomize prices");
     }
   };
 

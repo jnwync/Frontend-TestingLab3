@@ -1,12 +1,13 @@
+import React from "react";
 import { useState, ChangeEvent, FormEvent } from "react";
-
-export interface PogFormData {
+interface PogFormData {
   pogs_name: string;
   ticker_symbol: string;
   color: string;
   current_price: number;
   previous_price: number;
 }
+
 
 interface Props {
   onSubmit: (formData: PogFormData) => Promise<void>;

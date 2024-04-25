@@ -3,6 +3,7 @@ import axios from "axios";
 import Pog from "./Pogs";
 import Navbar from "./Navbar";
 import { useNavigate } from "react-router-dom";
+import React from "react";
 
 function UserDashboard(): JSX.Element {
   const [pogs, setPogs] = useState<any[]>([]);
@@ -25,6 +26,10 @@ function UserDashboard(): JSX.Element {
     }
   };
 
+  const handleNavigate = () => {
+    navigate("/buy-pogs");
+  }
+
   const handleLogout = (): void => {
     localStorage.clear();
     navigate("/");
@@ -40,10 +45,18 @@ function UserDashboard(): JSX.Element {
         >
           Logout
         </button>
+
+        <button
+          onClick={handleNavigate}
+          className="text-red-500 hover:text-red-700 focus:outline-none"
+        >
+          hello
+        </button>
       </div>
       <div className="container p-8 mx-auto">
         <Pog pogs={pogs} />
       </div>
+      
     </div>
   );
 }

@@ -3,6 +3,9 @@ import Login from './components/Login';
 import UserDashboard from './components/UserDashboard';
 import AdminDashboard from './components/AdminDashboard';
 import Register from './components/Register';
+import BuyPogs from './components/BuyPogs';
+import React from 'react';
+
 
 function App() {
   return (
@@ -12,6 +15,7 @@ function App() {
         <Route path="/register" element={<Register />} />
         <Route path="/user-dashboard" element={<UserDashboard />} />
         <Route path="/admin-dashboard" element={<AdminDashboard />} />
+        <Route path="/buy-pogs" element={<BuyPogs />} />
       </Routes>
     </Router>
   );
