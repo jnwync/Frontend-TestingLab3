@@ -3,7 +3,7 @@ import Login from './components/Login';
 import UserDashboard from './components/UserDashboard';
 import AdminDashboard from './components/AdminDashboard';
 import Register from './components/Register';
-import BuyPogs from './components/BuyPogs';
+import BuyPogs from './components/Market';
 import React from 'react';
 
 
