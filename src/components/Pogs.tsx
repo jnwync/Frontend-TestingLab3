@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import { Button, Container, Grid, Paper, Typography } from "@mui/material";
 
 interface PogProps {
   pogs: any[];
@@ -29,34 +30,55 @@ const Pog: React.FC<PogProps> = ({ pogs, updatePogs }) => {
   const isAdmin = localStorage.getItem("userType") === "admin";
 
   return (
-    <div className="container mx-auto">
-      <h1 className="mt-8 mb-4 text-3xl font-bold">Pogs Available</h1>
-      <div className="grid grid-cols-3 gap-4">
+    <Container maxWidth="lg" sx={{ marginTop: "2rem" }}>
+      <Typography variant="h4" gutterBottom>
+        Pogs Available
+      </Typography>
+      <Grid container spacing={4}>
         {localPogs.map((pog) => (
-          <div key={pog.id} className="relative p-4 rounded-lg shadow-lg">
-            {isAdmin && (
-              <button
-                className="absolute p-1 text-xs text-white bg-red-500 rounded-full top-2 right-2 hover:bg-red-600 focus:outline-none focus:bg-red-600"
-                onClick={() => handleDelete(pog.id)}
+          <Grid item key={pog.id} xs={12} sm={6} md={4}>
+            <Paper
+              elevation={3}
+              sx={{
+                padding: "1.5rem",
+                borderRadius: "1rem",
+                position: "relative",
+              }}
+            >
+              {isAdmin && (
+                <Button
+                  variant="outlined"
+                  color="error"
+                  size="small"
+                  sx={{ position: "absolute", top: "0.5rem", right: "0.5rem" }}
+                  onClick={() => handleDelete(pog.id)}
+                >
+                  Delete
+                </Button>
+              )}
+              <Typography variant="h6" gutterBottom>
+                {pog.pogs_name}
+              </Typography>
+              <Typography variant="body2" color="textSecondary" gutterBottom>
+                Ticker Symbol: {pog.ticker_symbol}
+              </Typography>
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  alignItems: "center",
+                  marginTop: "1rem",
+                }}
               >
-                Delete
-              </button>
-            )}
-            <h2 className="text-lg font-semibold">{pog.pogs_name}</h2>
-            <p className="mb-2 text-gray-600">{pog.ticker_symbol}</p>
-            {/* <p className="mb-2 text-gray-600">{pog.color}</p> */}
-            <div className="flex items-center justify-between">
-              <p className="font-bold text-gray-800">
-                Price: ${pog.current_price.toFixed(2)}
-              </p>
-              <button className="px-4 py-2 text-white bg-blue-500 rounded-md hover:bg-blue-600 focus:outline-none focus:bg-blue-600">
-                Buy Now
-              </button>
-            </div>
-          </div>
+                <Typography variant="body1" fontWeight="bold">
+                  Price: ${pog.current_price.toFixed(2)}
+                </Typography>
+              </div>
+            </Paper>
+          </Grid>
         ))}
-      </div>
-    </div>
+      </Grid>
+    </Container>
   );
 };
 

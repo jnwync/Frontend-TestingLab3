@@ -11,6 +11,9 @@
     "test": "jest"
   },
   "dependencies": {
+    "@emotion/react": "^11.11.4",
+    "@emotion/styled": "^11.11.5",
+    "@mui/material": "^5.15.15",
     "@swc/core": "^1.4.17",
     "@types/axios": "^0.14.0",
     "@types/react-router": "^5.1.20",

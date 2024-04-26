@@ -3,10 +3,10 @@ import axios from "axios";
 import Pog from "./Pogs";
 import Navbar from "./Navbar";
 import { useNavigate } from "react-router-dom";
+import { Button, Container, Typography, Box } from "@mui/material";
 
 function UserDashboard(): JSX.Element {
   const [pogs, setPogs] = useState<any[]>([]);
-
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -38,25 +38,23 @@ function UserDashboard(): JSX.Element {
   return (
     <div>
       <Navbar />
-
-      <div className="flex justify-end p-4">
-        <button
-          onClick={handleLogout}
-          className="text-red-500 hover:text-red-700 focus:outline-none"
-        >
-          Logout
-        </button>
-
-        <button
-          onClick={handleNavigate}
-          className="text-red-500 hover:text-red-700 focus:outline-none"
-        >
-          hello
-        </button>
-      </div>
-      <div className="container p-8 mx-auto">
-        <Pog pogs={pogs} />
-      </div>
+      <Container maxWidth="lg">
+        <Box display="flex" justifyContent="flex-end" py={2}>
+          <Button
+            onClick={handleLogout}
+            variant="text"
+            style={{ color: "#f44336", textTransform: "none" }}
+          >
+            Logout
+          </Button>
+          <Button variant="text" color="primary" onClick={handleNavigate}>
+            Buy Pogs
+          </Button>
+        </Box>
+        <Box px={4}>
+          <Pog pogs={pogs} />
+        </Box>
+      </Container>
     </div>
   );
 }

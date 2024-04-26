@@ -1,5 +1,7 @@
 import React from "react";
 import { useState, ChangeEvent, FormEvent } from "react";
+import { TextField, Button } from "@mui/material";
+
 interface PogFormData {
   pogs_name: string;
   ticker_symbol: string;
@@ -8,12 +10,12 @@ interface PogFormData {
   previous_price: number;
 }
 
-
 interface Props {
   onSubmit: (formData: PogFormData) => Promise<void>;
+  onCancel: () => void;
 }
 
-function PogForm({ onSubmit }: Props) {
+function PogForm({ onSubmit, onCancel }: Props) {
   const [formData, setFormData] = useState<PogFormData>({
     pogs_name: "",
     ticker_symbol: "",
@@ -25,7 +27,7 @@ function PogForm({ onSubmit }: Props) {
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
 
   const handleChange = (
-    e: ChangeEvent<HTMLInputElement | HTMLSelectElement>
+    e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
     const { name, value } = e.target;
     setFormData((prevData) => ({
@@ -82,55 +84,69 @@ function PogForm({ onSubmit }: Props) {
 
   return (
     <form onSubmit={handleSubmit}>
-      <input
-        type="text"
+      <TextField
+        fullWidth
+        label="Pogs Name"
         name="pogs_name"
-        placeholder="Pogs Name"
         value={formData.pogs_name}
         onChange={handleChange}
+        error={!!errors.pogs_name}
+        helperText={errors.pogs_name}
+        margin="normal"
+        variant="outlined"
       />
-      {errors.pogs_name && (
-        <span className="text-red-500">{errors.pogs_name}</span>
-      )}
-      <input
-        type="text"
+      <TextField
+        fullWidth
+        label="Ticker Symbol"
         name="ticker_symbol"
-        placeholder="Ticker Symbol"
         value={formData.ticker_symbol}
         onChange={handleChange}
+        error={!!errors.ticker_symbol}
+        helperText={errors.ticker_symbol}
+        margin="normal"
+        variant="outlined"
       />
-      {errors.ticker_symbol && (
-        <span className="text-red-500">{errors.ticker_symbol}</span>
-      )}
-      <input
-        type="text"
+      <TextField
+        fullWidth
+        label="Color"
         name="color"
-        placeholder="Color"
         value={formData.color}
         onChange={handleChange}
+        error={!!errors.color}
+        helperText={errors.color}
+        margin="normal"
+        variant="outlined"
       />
-      {errors.color && <span className="text-red-500">{errors.color}</span>}
-      <input
-        type="number"
+      <TextField
+        fullWidth
+        label="Current Price"
         name="current_price"
-        placeholder="Current Price"
+        type="number"
         value={formData.current_price}
         onChange={handleChange}
+        error={!!errors.current_price}
+        helperText={errors.current_price}
+        margin="normal"
+        variant="outlined"
       />
-      {errors.current_price && (
-        <span className="text-red-500">{errors.current_price}</span>
-      )}
-      <input
-        type="number"
+      <TextField
+        fullWidth
+        label="Previous Price"
         name="previous_price"
-        placeholder="Previous Price"
+        type="number"
         value={formData.previous_price}
         onChange={handleChange}
+        error={!!errors.previous_price}
+        helperText={errors.previous_price}
+        margin="normal"
+        variant="outlined"
       />
-      {errors.previous_price && (
-        <span className="text-red-500">{errors.previous_price}</span>
-      )}
-      <button type="submit">Add Pog</button>
+      <Button type="submit" variant="contained" color="primary">
+        Add Pog
+      </Button>
+      <Button variant="contained" onClick={onCancel}>
+        Cancel
+      </Button>
     </form>
   );
 }
