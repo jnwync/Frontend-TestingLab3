@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router";
 
-const BuyPogs = () => {
+const Market = () => {
   const [pogs, setPogs] = useState<any[]>([]);
   const navigate = useNavigate();
   const [user, setUser] = useState<any>({});
@@ -12,6 +12,7 @@ const BuyPogs = () => {
   useEffect(() => {
     fetchPogs();
     fetchUserData();
+    fetchWalletData();
   }, []);
 
   const fetchPogs = async (): Promise<void> => {
@@ -21,6 +22,19 @@ const BuyPogs = () => {
         setPogs(response.data);
       } else {
         setPogs([]);
+      }
+    } catch (error) {
+      navigate("/Not-found");
+    }
+  };
+
+  const fetchWalletData = async (): Promise<void> => {
+    try {
+      const response = await axios.get(`http://localhost:3000/wallet/api/by-user/${userId}`);
+      if (Array.isArray(response.data)) {
+        setWalletContent(response.data);
+      } else {
+        setWalletContent([]);
       }
     } catch (error) {
       navigate("/Not-found");
@@ -47,7 +61,7 @@ const BuyPogs = () => {
         quantity: 1,
       });
 
-      alert("Buying pog" + pogsId);
+      alert("Buying pog successful");
     } catch (error) {
       console.error("Failed to buy pog", error);
     }
@@ -128,4 +142,4 @@ const BuyPogs = () => {
   );
 };
 
-export default BuyPogs;
+export default Market;
