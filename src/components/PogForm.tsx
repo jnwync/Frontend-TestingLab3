@@ -87,6 +87,7 @@ function PogForm({ onSubmit, onCancel }: Props) {
       <TextField
         fullWidth
         label="Pogs Name"
+        placeholder="Pogs Name"
         name="pogs_name"
         value={formData.pogs_name}
         onChange={handleChange}
@@ -98,6 +99,7 @@ function PogForm({ onSubmit, onCancel }: Props) {
       <TextField
         fullWidth
         label="Ticker Symbol"
+        placeholder="Ticker Symbol"
         name="ticker_symbol"
         value={formData.ticker_symbol}
         onChange={handleChange}
@@ -109,6 +111,7 @@ function PogForm({ onSubmit, onCancel }: Props) {
       <TextField
         fullWidth
         label="Color"
+        placeholder="Color"
         name="color"
         value={formData.color}
         onChange={handleChange}
@@ -121,6 +124,7 @@ function PogForm({ onSubmit, onCancel }: Props) {
         fullWidth
         label="Current Price"
         name="current_price"
+        placeholder="Current Price"
         type="number"
         value={formData.current_price}
         onChange={handleChange}
@@ -132,6 +136,7 @@ function PogForm({ onSubmit, onCancel }: Props) {
       <TextField
         fullWidth
         label="Previous Price"
+        placeholder="Previous Price"
         name="previous_price"
         type="number"
         value={formData.previous_price}

@@ -15,10 +15,10 @@ interface PogFormData {
   previous_price: number;
 }
 
-interface Props {
-  onSubmit: (formData: PogFormData) => Promise<void>;
-  onCancel?: () => void; // Making onCancel optional
-}
+// interface Props {
+//   onSubmit: (formData: PogFormData) => Promise<void>;
+//   onCancel?: () => void; // Making onCancel optional
+// }
 
 function AdminDashboard() {
   const [showForm, setShowForm] = useState<boolean>(false);
