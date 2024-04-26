@@ -1,6 +1,15 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router";
+import {
+  Button,
+  List,
+  ListItem,
+  ListItemText,
+  Typography,
+  Divider,
+  Paper,
+} from "@mui/material";
 
 const Market = () => {
   const [pogs, setPogs] = useState<any[]>([]);
@@ -106,38 +115,72 @@ const Market = () => {
   }, [userId]);
 
   return (
-    <div>
-      <div>
-        <h2>User's Wallet</h2>
-        {walletContent.length === 0 ? (
-          <p>No items found in the user's wallet.</p>
-        ) : (
-          <ul>
-            {walletContent.map((item) => (
-              <li key={item.id}>
-                <p>
-                  Pog Name:{" "}
-                  {pogs.find((pog) => pog.id === item.pogsId)?.pogs_name}
-                </p>
-                <p>Pog ID: {item.pogsId}</p>
-                <p>Quantity: {item.quantity}</p>
-                <p>User Balance: {user.balance}</p>
-                <button onClick={() => handleSellPogClick(item.pogsId)}>
-                  Sell Pog
-                </button>
-              </li>
-            ))}
-          </ul>
-        )}
-      </div>
+    <div style={{ padding: "20px" }}>
+      <Typography variant="h4" gutterBottom>
+        User's Wallet
+      </Typography>
+      <Paper elevation={3} style={{ marginBottom: "20px", padding: "20px" }}>
+        <List>
+          {walletContent.map((item) => (
+            <div key={item.id}>
+              <ListItem>
+                <ListItemText
+                  primary={
+                    pogs.find((pog) => pog.id === item.pogsId)?.pogs_name
+                  }
+                  secondary={
+                    <>
+                      <Typography variant="body2">
+                        Pog ID: {item.pogsId}
+                      </Typography>
+                      <Typography variant="body2">
+                        Quantity: {item.quantity}
+                      </Typography>
+                      <Typography variant="body2">
+                        User Balance: {user.balance}
+                      </Typography>
+                    </>
+                  }
+                />
+                <Button
+                  variant="contained"
+                  color="secondary"
+                  onClick={() => handleSellPogClick(item.pogsId)}
+                >
+                  Sell
+                </Button>
+              </ListItem>
+              <Divider />
+            </div>
+          ))}
+        </List>
+      </Paper>
 
-      {pogs.map((pog) => (
-        <div key={pog.id}>
-          <h2>{pog.pogs_name}</h2>
-          <p>Price: {pog.current_price}</p>
-          <button onClick={() => handleBuyPogClick(pog.id)}>Buy Pogs</button>
-        </div>
-      ))}
+      <Typography variant="h4" gutterBottom>
+        Available Pogs
+      </Typography>
+      <Paper elevation={3} style={{ padding: "20px" }}>
+        <List>
+          {pogs.map((pog) => (
+            <div key={pog.id}>
+              <ListItem disablePadding>
+                <ListItemText
+                  primary={pog.pogs_name}
+                  secondary={`Price: ${pog.current_price}`}
+                />
+                <Button
+                  variant="contained"
+                  color="primary"
+                  onClick={() => handleBuyPogClick(pog.id)}
+                >
+                  Buy
+                </Button>
+              </ListItem>
+              <Divider />
+            </div>
+          ))}
+        </List>
+      </Paper>
     </div>
   );
 };

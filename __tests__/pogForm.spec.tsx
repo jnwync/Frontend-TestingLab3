@@ -8,7 +8,9 @@ const mockSubmit = jest.fn();
 
 describe('PogForm', () => {
   it('should submit form data successfully', async () => {
-    const { getByPlaceholderText, getByText } = render(<PogForm onSubmit={mockSubmit} />);
+    const { getByPlaceholderText, getByText } = render(<PogForm onSubmit={mockSubmit} onCancel={function (): void {
+      throw new Error('Function not implemented.');
+    } } />);
 
     // Fill in the form fields
     fireEvent.change(getByPlaceholderText('Pogs Name'), { target: { value: 'Test Pog' } });
@@ -34,7 +36,9 @@ describe('PogForm', () => {
   });
 
   it('should display error messages for invalid form data', async () => {
-    const { getByPlaceholderText, getByText, queryByText } = render(<PogForm onSubmit={mockSubmit} />);
+    const { getByPlaceholderText, getByText, queryByText } = render(<PogForm onSubmit={mockSubmit} onCancel={function (): void {
+      throw new Error('Function not implemented.');
+    } } />);
   
     // Fill in the form fields with invalid data
     fireEvent.change(getByPlaceholderText('Pogs Name'), { target: { value: '' } });

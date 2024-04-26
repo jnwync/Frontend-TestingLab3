@@ -45,8 +45,6 @@ describe('Market', () => {
 
 
     it("should render Market successfully", async () => {
-
-
         mockedAxios.get.mockResolvedValueOnce({
             data: pogsData,
         });
@@ -77,7 +75,7 @@ describe('Market', () => {
             </Router>
         );
 
-        const button = await findByRole('button', { name: /Buy Pogs/i });
+        const button = await findByRole('button', { name: /Buy/i });
         button.click();
 
         await waitFor(() => expect(mockedAxios.post).toHaveBeenCalledTimes(1));
@@ -109,7 +107,7 @@ describe('Market', () => {
             </Router>
         );
     
-        const button = await findByText("Sell Pog");
+        const button = await findByText("Sell");
         fireEvent.click(button);
     
         await waitFor(() => expect(mockedAxios.post).toHaveBeenCalledTimes(1));

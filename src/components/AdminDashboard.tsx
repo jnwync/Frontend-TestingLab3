@@ -5,6 +5,7 @@ import PogForm from "./PogForm";
 import Navbar from "./Navbar";
 import { useNavigate } from "react-router-dom";
 import React from "react";
+import { Button } from "@mui/material";
 
 interface PogFormData {
   pogs_name: string;
@@ -13,6 +14,11 @@ interface PogFormData {
   current_price: number;
   previous_price: number;
 }
+
+// interface Props {
+//   onSubmit: (formData: PogFormData) => Promise<void>;
+//   onCancel?: () => void; // Making onCancel optional
+// }
 
 function AdminDashboard() {
   const [showForm, setShowForm] = useState<boolean>(false);
@@ -66,8 +72,7 @@ function AdminDashboard() {
       await axios.patch("http://localhost:3000/pogs/api/update-price");
       fetchPogs();
       alert("Prices randomized successfully");
-    }
-    catch (error) {
+    } catch (error) {
       alert("Failed to randomize prices");
     }
   };
@@ -80,30 +85,47 @@ function AdminDashboard() {
   return (
     <div>
       <Navbar />
-      <div className="flex justify-end p-4">
-        <button
+      <div
+        style={{ display: "flex", justifyContent: "flex-end", padding: "1rem" }}
+      >
+        <Button
           onClick={handleLogout}
-          className="text-red-500 hover:text-red-700 focus:outline-none"
+          variant="text"
+          style={{ color: "#f44336", textTransform: "none" }}
         >
           Logout
-        </button>
+        </Button>
       </div>
-      <div className="container p-8 mx-auto">
-        <div className="flex justify-between mb-4">
-          <button
+      <div style={{ margin: "2rem auto", padding: "2rem" }}>
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            marginBottom: "1rem",
+          }}
+        >
+          <Button
             onClick={handleAddPogClick}
-            className="block px-4 py-2 text-white bg-blue-500 rounded-md shadow-md hover:bg-blue-600 focus:outline-none focus:bg-blue-600"
+            variant="contained"
+            color="primary"
+            style={{ marginRight: "1rem" }}
           >
             Add Pog
-          </button>
-          <button
+          </Button>
+          <Button
             onClick={handleRandomizePriceClick}
-            className="block px-4 py-2 text-white bg-green-500 rounded-md shadow-md hover:bg-green-600 focus:outline-none focus:bg-green-600"
+            variant="contained"
+            color="success"
           >
             Randomize Prices
-          </button>
+          </Button>
         </div>
-        {showForm && <PogForm onSubmit={handleFormSubmit} />}
+        {showForm && (
+          <PogForm
+            onSubmit={handleFormSubmit}
+            onCancel={() => setShowForm(false)}
+          />
+        )}
         <Pog pogs={pogs} />
       </div>
     </div>
