@@ -53,16 +53,26 @@ const BuyPogs = () => {
     }
   };
 
-  const handleSellPogClick = async (pogsId: number): Promise<void> => {
-    console.log("Selling pog", pogsId);
+  const handleSellPogClick = async (pogsId: number) => {
+    console.log(`userID: ${userId}, pogsId: ${pogsId},`);
     try {
       await axios.post("http://localhost:3000/user/api-sell-pogs", {
-        userId: userId,
-        pogsId: pogsId,
+        user_id: Number(userId),
+        pog_id: Number(pogsId),
         quantity: 1,
       });
 
-      alert("Selling pog" + pogsId);
+      // Update wallet content after selling
+      setWalletContent((prevWalletContent) =>
+        prevWalletContent.map((item) => {
+          if (item.pogsId === pogsId) {
+            return { ...item, quantity: item.quantity - 1 };
+          }
+          return item;
+        })
+      );
+
+      alert("Pog sold successfully");
     } catch (error) {
       console.error("Failed to sell pog", error);
     }
@@ -98,10 +108,7 @@ const BuyPogs = () => {
                 <p>Pog ID: {item.pogsId}</p>
                 <p>Quantity: {item.quantity}</p>
                 <p>User Balance: {user.balance}</p>
-                <button
-                  onClick={async () => await handleSellPogClick(item.pogsId)}
-                  className="block px-4 py-2 mt-2 text-white bg-red-500 rounded-md shadow-md hover:bg-red-600 focus:outline-none focus:bg-red-600"
-                >
+                <button onClick={() => handleSellPogClick(item.pogsId)}>
                   Sell Pog
                 </button>
               </li>
@@ -114,12 +121,7 @@ const BuyPogs = () => {
         <div key={pog.id}>
           <h2>{pog.pogs_name}</h2>
           <p>Price: {pog.current_price}</p>
-          <button
-            onClick={async () => await handleBuyPogClick(pog.id)}
-            className="block px-4 py-2 text-white bg-green-500 rounded-md shadow-md hover:bg-green-600 focus:outline-none focus:bg-green-600"
-          >
-            Buy Pogs
-          </button>
+          <button onClick={() => handleBuyPogClick(pog.id)}>Buy Pogs</button>
         </div>
       ))}
     </div>
